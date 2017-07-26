@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>仓库库存管理</title>
+<link rel="stylesheet" type="text/css" href="ui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="ui/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="css/table.css">
+<script type="text/javascript" src="ui/jquery.min.js"></script>
+<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="ui/jquery.serializejson.min.js"></script>
+<script type="text/javascript" src="js/date.js"></script>
+<script type="text/javascript" src="js/storedetail.js"></script>
+
+</head>
+<body>
+<div class="easyui-panel" style="padding-left:4px;border-bottom:0px;">
+	<div style="height:2px;"></div>
+	<form id="searchForm">
+			仓库：<input name="t1.storeuuid" class="easyui-combobox" data-options="
+			url:'store_list',valueField:'uuid',textField:'name'
+			">
+			商品：<input name="t1.goodsuuid" class="easyui-combobox" data-options="
+			url:'goods_list',valueField:'uuid',textField:'name'
+			">
+					<button type="button" id="btnSearch">查询</button>
+	</form>
+	<div style="height:2px;"></div>
+</div>
+<table id="grid"></table>
+<div class="easyui-panel" style="padding-left:4px;border-bottom:0px;">
+	<div id="storeoperDlg" style="height:2px;">
+		<table class="hovertable">
+			<tr>
+				<td class="bg"  width="15%">仓库名称</td>
+				<td colspan="3" id="storeName"></td>
+				<td class="bg"  width="15%">商品名称</td>
+				<td id="goodsName" colspan="3"></td>
+			</tr>
+		</table>
+		<table id="storeopergrid"></table>
+	</div>
+
+</div>
+</body>
+</html>
