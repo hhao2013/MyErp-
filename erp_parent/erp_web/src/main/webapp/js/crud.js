@@ -19,7 +19,21 @@ $(function(){
 				//关闭编辑窗口
 				$('#editDlg').dialog('open');
 			}
-		}]
+		},'-',{
+			text:'导出',
+			iconCls:'icon-excel',
+			handler:function(){
+				var formData = $('#searchForm').serializeJSON();
+				$.download(name+'_export'+listParam,formData);
+			}
+		},'-',{
+			text:'导入',
+			iconCls:'icon-save',
+			handler:function(){
+				$('#importDlg').dialog('open');
+			}
+		}
+		]
 	});
 
 	//点击查询按钮
@@ -77,7 +91,38 @@ $(function(){
 			}
 		}]
 	});
-
+	//初始化编辑窗口
+		$('#importDlg').dialog({
+			title: '导入数据',//窗口标题
+			width: 330,//窗口宽度
+			height: 106,//窗口高度
+			closed: true,//窗口是是否为关闭状态, true：表示关闭
+			modal: true,//模式窗口
+			buttons:[{
+				text:'导入',
+				iconCls: 'icon-save',
+				handler:function(){
+					var submitData = $('#importForm')[0];
+					$.ajax({
+						url: 'supplier_doImport',
+						data: new FormData(submitData),
+						dataType: 'json',
+						type: 'post',
+						processData:false,//如果要发送 DOM 树信息或其它不希望转换的信息，请设置为 false
+		    			contentType:false,//(默认: "application/x-www-form-urlencoded") 发送信息至服务器时内容编码类型。我们上传的是字节流，不能编码
+						success:function(rtn){
+							//{success:true, message: 操作失败}
+							$.messager.alert('提示',rtn.message, 'info',function(){
+								if(rtn.success){
+									$('#importDlg').dialog('close');
+									$('#grid').datagrid('reload');
+								}
+							});
+						}
+					});
+				}
+			}]
+		})
 });
 
 

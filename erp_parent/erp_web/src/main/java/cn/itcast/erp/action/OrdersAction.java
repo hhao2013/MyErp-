@@ -1,6 +1,10 @@
 package cn.itcast.erp.action;
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts2.ServletActionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -102,5 +106,18 @@ public class OrdersAction extends BaseAction<Orders> {
 			t1.setCreater(loginUser.getUuid());
 			super.listByPage();
 		}
+	}
+	public void exportById(){
+		HttpServletResponse response = ServletActionContext.getResponse();
+		String filename = String.format("attachment;filename=orders_%d.xls", getId());
+		response.setHeader("Content-Disposition",filename);
+		try {
+			ordersBiz.exportById(response.getOutputStream(), getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		
 	}
 }

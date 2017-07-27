@@ -100,6 +100,11 @@ $(function(){
 				handler:doStart
 		});
 	}
+	orderDlgToolbar.push({
+			text:'导出',
+			iconCls:'icon-excel',
+			handler:doExport
+	})
 	//入库双击事件
 	if(oper == 'doInStore' || oper == 'doOutStore'){
 		$('#itemgrid').datagrid({
@@ -363,4 +368,9 @@ function getColumns(){
 		  		    {field:'waybillsn',title:'运单号',width:100}
 				]]
 	}
+}
+
+function doExport(){
+	var forData = {id:$('#uuid').html()};
+	$.download("orders_exportById",forData);
 }
