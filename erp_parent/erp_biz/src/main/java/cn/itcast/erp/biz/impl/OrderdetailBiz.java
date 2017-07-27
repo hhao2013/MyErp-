@@ -2,15 +2,19 @@ package cn.itcast.erp.biz.impl;
 import java.util.Date;
 import java.util.List;
 
+import com.redsun.bos.ws.impl.IWaybillWs;
+
 import cn.itcast.erp.biz.IOrderdetailBiz;
 import cn.itcast.erp.biz.exception.ErpException;
 import cn.itcast.erp.dao.IOrderdetailDao;
 import cn.itcast.erp.dao.IStoredetailDao;
 import cn.itcast.erp.dao.IStoreoperDao;
+import cn.itcast.erp.dao.ISupplierDao;
 import cn.itcast.erp.entity.Orderdetail;
 import cn.itcast.erp.entity.Orders;
 import cn.itcast.erp.entity.Storedetail;
 import cn.itcast.erp.entity.Storeoper;
+import cn.itcast.erp.entity.Supplier;
 /**
  * 订单明细业务逻辑类
  * @author Administrator
@@ -21,7 +25,16 @@ public class OrderdetailBiz extends BaseBiz<Orderdetail> implements IOrderdetail
 	private IOrderdetailDao orderdetailDao;
 	private IStoredetailDao storedetailDao;
 	private IStoreoperDao storeoperDao;
-	
+	private ISupplierDao supplierDao;
+	private IWaybillWs waybillWs;
+	public void setSupplierDao(ISupplierDao supplierDao) {
+		this.supplierDao = supplierDao;
+	}
+
+	public void setWaybillWs(IWaybillWs waybillWs) {
+		this.waybillWs = waybillWs;
+	}
+
 	public void setOrderdetailDao(IOrderdetailDao orderdetailDao) {
 		this.orderdetailDao = orderdetailDao;
 		super.setBaseDao(this.orderdetailDao);
@@ -122,6 +135,9 @@ public class OrderdetailBiz extends BaseBiz<Orderdetail> implements IOrderdetail
 			order.setState(Orders.STATE_IN);
 			order.setEnder(empuuid);
 			order.setEndtime(orderDetail.getEndtime());
+			Supplier supplier = supplierDao.get(order.getSupplieruuid());
+			Long addWaybill = waybillWs.addWaybill(1l,supplier.getAddress(),supplier.getName(),supplier.getTele(),"--");
+			order.setWaybillsn(addWaybill);
 		}
 	}
 	

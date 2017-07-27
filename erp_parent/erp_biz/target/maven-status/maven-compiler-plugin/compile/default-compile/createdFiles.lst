@@ -10,6 +10,7 @@ cn\itcast\erp\biz\impl\RoleBiz.class
 cn\itcast\erp\biz\impl\OrdersBiz.class
 cn\itcast\erp\biz\IGoodstypeBiz.class
 cn\itcast\erp\biz\IRoleBiz.class
+cn\itcast\erp\biz\IResportBiz.class
 cn\itcast\erp\biz\impl\GoodstypeBiz.class
 cn\itcast\erp\biz\impl\OrderdetailBiz.class
 cn\itcast\erp\biz\IReturnorderdetailBiz.class
@@ -17,6 +18,7 @@ cn\itcast\erp\biz\IBaseBiz.class
 cn\itcast\erp\biz\impl\SupplierBiz.class
 cn\itcast\erp\biz\IStoreBiz.class
 cn\itcast\erp\biz\IInventoryBiz.class
+cn\itcast\erp\biz\exception\ErpException.class
 cn\itcast\erp\biz\impl\EmpBiz.class
 cn\itcast\erp\biz\IOrderdetailBiz.class
 cn\itcast\erp\biz\impl\ReturnordersBiz.class
@@ -30,3 +32,4 @@ cn\itcast\erp\biz\impl\StoredetailBiz.class
 cn\itcast\erp\biz\IReturnordersBiz.class
 cn\itcast\erp\biz\IOrdersBiz.class
 cn\itcast\erp\biz\IDepBiz.class
+cn\itcast\erp\biz\impl\ResportBiz.class

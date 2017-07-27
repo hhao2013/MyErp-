@@ -1,4 +1,6 @@
 cn\itcast\erp\dao\impl\RoleDao.class
+cn\itcast\erp\dao\impl\ResportDao.class
+cn\itcast\erp\dao\IResportDao.class
 cn\itcast\erp\dao\impl\StoreDao.class
 cn\itcast\erp\dao\IMenuDao.class
 cn\itcast\erp\dao\impl\MenuDao.class

@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
+import com.redsun.bos.ws.Waybilldetail;
+import com.redsun.bos.ws.impl.IWaybillWs;
 
 import cn.itcast.erp.biz.IOrdersBiz;
 import cn.itcast.erp.biz.exception.ErpException;
@@ -23,6 +25,19 @@ import cn.itcast.erp.entity.Orders;
  */
 public class OrdersAction extends BaseAction<Orders> {
 	private Logger log = LoggerFactory.getLogger(OrdersAction.class);
+	private IWaybillWs waybillWs;
+	private Long waybillsn;
+	public Long getWaybillsn() {
+		return waybillsn;
+	}
+
+	public void setWaybillsn(Long waybillsn) {
+		this.waybillsn = waybillsn;
+	}
+
+	public void setWaybillWs(IWaybillWs waybillWs) {
+		this.waybillWs = waybillWs;
+	}
 	private IOrdersBiz ordersBiz;
 	private String json;
 	public void setJson(String json) {
@@ -116,8 +131,9 @@ public class OrdersAction extends BaseAction<Orders> {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
-		
+	}
+	public void waybillList(){
+		List<Waybilldetail> waybilldetaillist = waybillWs.waybilldetaillist(waybillsn);
+		write(JSON.toJSONString(waybilldetaillist));
 	}
 }

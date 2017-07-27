@@ -41,6 +41,7 @@ $(function(){
 			$('#ordersDlg').dialog('open');
 			
 			$('#uuid').html(rowData.uuid);
+			$('#waybillsn').html(rowData.waybillsn);
 			$('#supplierName').html(rowData.supplierName);
 			$('#state').html(formatState(rowData.state));
 			$('#createrName').html(rowData.createrName);
@@ -56,8 +57,17 @@ $(function(){
 		}
 	});
 	
-	
-	
+	//加载表格数据
+		$('#waybillGrid').datagrid({
+			columns:[[  
+				{field:'exedate',title:'执行日期',width:100},
+	  		    {field:'exetime',title:'执行时间',width:100},
+	  		    {field:'info',title:'执行信息',width:100},
+	  		    ]],
+			singleSelect: true,
+			rownumbers:true,
+			fitColumns:true
+		});
 	//明细表格
 	$('#itemgrid').datagrid({
 		columns:[[
@@ -105,6 +115,29 @@ $(function(){
 			iconCls:'icon-excel',
 			handler:doExport
 	})
+	
+	//运单详情
+	orderDlgToolbar.push({
+		text:'物流详情',
+		iconCls:'icon-search',
+		handler:function(){
+			var waybill = $('#waybillsn').html();
+			if(waybill==""){
+				$.messager.alert("提示","没有物流信息","info");
+				return;
+			}
+			$('#waybillDlg').dialog('open');
+			$('#waybillGrid').datagrid({
+					url: 'orders_waybillList?waybillsn=' + waybill,
+			})
+		}
+	})
+	
+	if(orderDlgToolbar.length>0){
+		$('#ordersDlg').dialog({
+			toolbar:orderDlgToolbar
+		});
+	}
 	//入库双击事件
 	if(oper == 'doInStore' || oper == 'doOutStore'){
 		$('#itemgrid').datagrid({

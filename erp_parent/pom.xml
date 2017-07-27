@@ -158,7 +158,16 @@
         	<artifactId>shiro-web</artifactId>
         	<version>${shiro.ver}</version>
     	</dependency>
-
+		<dependency>
+	  		<groupId>org.apache.cxf</groupId>
+	  		<artifactId>cxf-rt-frontend-jaxws</artifactId>
+	  		<version>3.0.1</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>org.apache.cxf</groupId>
+  			<artifactId>cxf-rt-transports-http</artifactId>
+  			<version>3.0.1</version>
+  		</dependency>
     	<dependency>
        	 	<groupId>org.apache.shiro</groupId>
         	<artifactId>shiro-spring</artifactId>
@@ -209,5 +218,6 @@
     	<module>erp_dao</module>
     	<module>erp_biz</module>
     	<module>erp_web</module>
+    	<module>erp_client</module>
     </modules>
 </project>

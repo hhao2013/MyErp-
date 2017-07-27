@@ -42,6 +42,8 @@
 		<property name="orderdetailDao" ref="orderdetailDao"></property>
 		<property name="storeoperDao" ref="storeoperDao"></property>
 		<property name="storedetailDao" ref="storedetailDao"></property>
+		<property name="supplierDao" ref="supplierDao"></property>
+		<property name="waybillWs" ref="waybillClient"></property>
 	</bean>
 	<!-- 订单 -->
 	<bean id="ordersBiz" class="cn.itcast.erp.biz.impl.OrdersBiz">
