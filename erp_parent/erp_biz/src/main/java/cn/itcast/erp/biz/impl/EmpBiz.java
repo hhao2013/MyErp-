@@ -1,10 +1,16 @@
 package cn.itcast.erp.biz.impl;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.shiro.crypto.hash.Md5Hash;
 
 import cn.itcast.erp.biz.IEmpBiz;
 import cn.itcast.erp.biz.exception.ErpException;
 import cn.itcast.erp.dao.IEmpDao;
 import cn.itcast.erp.entity.Emp;
+import cn.itcast.erp.entity.Menu;
+import cn.itcast.erp.entity.Role;
+import cn.itcast.erp.entity.Tree;
 /**
  * 员工业务逻辑类
  * @author Administrator
@@ -60,5 +66,4 @@ public class EmpBiz extends BaseBiz<Emp> implements IEmpBiz {
 		t.setPwd(md5Return);
 		super.add(t);
 	}
-	
 }

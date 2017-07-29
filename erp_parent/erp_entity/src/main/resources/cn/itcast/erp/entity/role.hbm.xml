@@ -8,6 +8,9 @@
         </id>
 
         <property name="name" /> 
- 
+ 	<bag name="menus" order-by="menuuuid" table="ROLE_MENU">
+ 		<key column="roleuuid"></key>
+ 		<many-to-many class="cn.itcast.erp.entity.Menu" column="menuuuid"></many-to-many>
+ 	</bag>
     </class>
 </hibernate-mapping>

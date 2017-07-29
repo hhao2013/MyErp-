@@ -36,6 +36,8 @@
 	<!-- 菜单 -->
 	<bean id="menuBiz" class="cn.itcast.erp.biz.impl.MenuBiz">
 		<property name="menuDao" ref="menuDao"></property>
+		<property name="empDao" ref="empDao"></property>
+		<property name="roleDao" ref="roleDao"></property>
 	</bean>
 	<!-- 订单明细 -->
 	<bean id="orderdetailBiz" class="cn.itcast.erp.biz.impl.OrderdetailBiz">
@@ -62,6 +64,7 @@
 	<!-- 角色 -->
 	<bean id="roleBiz" class="cn.itcast.erp.biz.impl.RoleBiz">
 		<property name="roleDao" ref="roleDao"></property>
+		<property name="menuDao" ref="menuDao"></property>
 	</bean>
 	<!-- 仓库 -->
 	<bean id="storeBiz" class="cn.itcast.erp.biz.impl.StoreBiz">

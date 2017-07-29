@@ -17,5 +17,9 @@
         <property name="address" /> 
         <property name="birthday" /> 
 		<many-to-one name="dep" class="cn.itcast.erp.entity.Dep" column="DEPUUID"></many-to-one> 
+		<bag name="roles" order-by="roleuuid" table="EMP_ROLE">
+			<key column="empuuid"></key>
+			<many-to-many class="cn.itcast.erp.entity.Role" column="roleuuid"></many-to-many>
+		</bag>
     </class>
 </hibernate-mapping>
