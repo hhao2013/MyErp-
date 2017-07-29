@@ -211,6 +211,9 @@ $(function(){
  * @returns
  */
 function formatDate(value){
+	if(null==value){
+		return null;
+	}
 	return new Date(value).Format('yyyy-MM-dd');
 }
 

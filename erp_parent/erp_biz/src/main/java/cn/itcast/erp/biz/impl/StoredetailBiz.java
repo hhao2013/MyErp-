@@ -1,13 +1,20 @@
 package cn.itcast.erp.biz.impl;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.MessagingException;
+
 import cn.itcast.erp.biz.IStoredetailBiz;
+import cn.itcast.erp.biz.exception.ErpException;
 import cn.itcast.erp.dao.IGoodsDao;
 import cn.itcast.erp.dao.IStoreDao;
 import cn.itcast.erp.dao.IStoredetailDao;
+import cn.itcast.erp.entity.Storealert;
 import cn.itcast.erp.entity.Storedetail;
+import cn.itcast.erp.utils.MailUtils;
 /**
  * 仓库库存业务逻辑类
  * @author Administrator
@@ -18,6 +25,23 @@ public class StoredetailBiz extends BaseBiz<Storedetail> implements IStoredetail
 	private IStoredetailDao storedetailDao;
 	private IGoodsDao goodsDao;
 	private IStoreDao storeDao;
+	private MailUtils mailUtils;
+	private String to;
+	private String text;
+	private String subject;
+	
+	public void setMailUtils(MailUtils mailUtils) {
+		this.mailUtils = mailUtils;
+	}
+	public void setTo(String to) {
+		this.to = to;
+	}
+	public void setText(String text) {
+		this.text = text;
+	}
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
 	public void setGoodsDao(IGoodsDao goodsDao) {
 		this.goodsDao = goodsDao;
 	}
@@ -64,4 +88,19 @@ public class StoredetailBiz extends BaseBiz<Storedetail> implements IStoredetail
 		}
 		return storeName;
 	}*/
+	@Override
+	public List<Storealert> getStorealert() {
+		return storedetailDao.getStorealert();
+	}
+	@Override
+	public void sendStorealertMail() throws MessagingException {
+		List<Storealert> storealert = storedetailDao.getStorealert();
+		int cnt = storealert==null?0:storealert.size();
+		if(cnt>0){
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			mailUtils.sendMail(to, subject.replace("[time]",sdf.format(new Date())), text.replace("[count]",String.valueOf(cnt)));
+		}else{
+			throw new ErpException("当前没有库存预警");
+		}
+	}
 }

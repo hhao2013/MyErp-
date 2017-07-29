@@ -95,7 +95,7 @@ public class BaseAction<T> {
 		mapData.put("total", total);
 		mapData.put("rows", list);
 		//把部门列表转JSON字符串
-		String listString = JSON.toJSONString(mapData,SerializerFeature.DisableCircularReferenceDetect);
+		String listString = JSON.toJSONString(mapData,SerializerFeature.DisableCircularReferenceDetect,SerializerFeature.WriteMapNullValue);
 		write(listString);
 	}
 	

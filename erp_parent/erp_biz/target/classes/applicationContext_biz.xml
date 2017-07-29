@@ -72,6 +72,10 @@
 		<property name="storedetailDao" ref="storedetailDao"></property>
 		<property name="goodsDao" ref="goodsDao"></property>
 		<property name="storeDao" ref="storeDao"></property>
+		<property name="mailUtils" ref="mailUtils"></property>
+		<property name="to" value="hhao2013@163.com"></property>
+		<property name="subject" value="库存预警_时间:[time]"></property>
+		<property name="text" value="亲，您有[count]种库存不足，请登录蓝云Erp系统查看"></property>
 	</bean>
 	<!-- 仓库操作记录 -->
 	<bean id="storeoperBiz" class="cn.itcast.erp.biz.impl.StoreoperBiz">

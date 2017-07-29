@@ -8,12 +8,14 @@ E:\MyErp-\erp_parent\erp_biz\src\main\java\cn\itcast\erp\biz\IGoodstypeBiz.java
 E:\MyErp-\erp_parent\erp_biz\src\main\java\cn\itcast\erp\biz\impl\GoodsBiz.java
 E:\MyErp-\erp_parent\erp_biz\src\main\java\cn\itcast\erp\biz\IEmpBiz.java
 E:\MyErp-\erp_parent\erp_biz\src\main\java\cn\itcast\erp\biz\impl\RoleBiz.java
+E:\MyErp-\erp_parent\erp_biz\src\main\java\cn\itcast\erp\job\MailJob.java
 E:\MyErp-\erp_parent\erp_biz\src\main\java\cn\itcast\erp\biz\IStoredetailBiz.java
 E:\MyErp-\erp_parent\erp_biz\src\main\java\cn\itcast\erp\biz\IRoleBiz.java
 E:\MyErp-\erp_parent\erp_biz\src\main\java\cn\itcast\erp\biz\impl\StoredetailBiz.java
 E:\MyErp-\erp_parent\erp_biz\src\main\java\cn\itcast\erp\biz\IDepBiz.java
 E:\MyErp-\erp_parent\erp_biz\src\main\java\cn\itcast\erp\biz\IStoreBiz.java
 E:\MyErp-\erp_parent\erp_biz\src\main\java\cn\itcast\erp\biz\IOrdersBiz.java
+E:\MyErp-\erp_parent\erp_biz\src\main\java\cn\itcast\erp\utils\MailUtils.java
 E:\MyErp-\erp_parent\erp_biz\src\main\java\cn\itcast\erp\biz\IResportBiz.java
 E:\MyErp-\erp_parent\erp_biz\src\main\java\cn\itcast\erp\biz\IReturnorderdetailBiz.java
 E:\MyErp-\erp_parent\erp_biz\src\main\java\cn\itcast\erp\biz\impl\StoreoperBiz.java
