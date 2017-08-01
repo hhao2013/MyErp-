@@ -1,6 +1,8 @@
 E:\MyErp-\erp_parent\erp_web\src\main\java\cn\itcast\erp\action\OrderdetailAction.java
 E:\MyErp-\erp_parent\erp_web\src\main\java\cn\itcast\erp\action\LoginAction.java
+E:\MyErp-\erp_parent\erp_web\src\main\java\cn\itcast\erp\filter\ErpAuthorizationFilter.java
 E:\MyErp-\erp_parent\erp_web\src\main\java\cn\itcast\erp\action\ReturnordersAction.java
+E:\MyErp-\erp_parent\erp_web\src\main\java\cn\itcast\erp\realm\ErpRealm.java
 E:\MyErp-\erp_parent\erp_web\src\main\java\cn\itcast\erp\action\EmpAction.java
 E:\MyErp-\erp_parent\erp_web\src\main\java\cn\itcast\erp\action\SupplierAction.java
 E:\MyErp-\erp_parent\erp_web\src\main\java\cn\itcast\erp\action\BaseAction.java

@@ -13,7 +13,14 @@ public class Role {
 	private String name;//名称
 	@JSONField(serialize=false)
 	private List<Menu> menus;
-
+	@JSONField(serialize=false)
+	private List<Emp> empList;
+	public List<Emp> getEmpList() {
+		return empList;
+	}
+	public void setEmpList(List<Emp> empList) {
+		this.empList = empList;
+	}
 	public List<Menu> getMenus() {
 		return menus;
 	}

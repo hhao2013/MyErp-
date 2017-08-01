@@ -2,6 +2,8 @@ package cn.itcast.erp.biz.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.alibaba.fastjson.JSON;
+
 import cn.itcast.erp.biz.IMenuBiz;
 import cn.itcast.erp.dao.IEmpDao;
 import cn.itcast.erp.dao.IMenuDao;
@@ -10,6 +12,7 @@ import cn.itcast.erp.entity.Emp;
 import cn.itcast.erp.entity.Menu;
 import cn.itcast.erp.entity.Role;
 import cn.itcast.erp.entity.Tree;
+import redis.clients.jedis.Jedis;
 /**
  * 菜单业务逻辑类
  * @author Administrator
@@ -20,7 +23,12 @@ public class MenuBiz extends BaseBiz<Menu> implements IMenuBiz {
 	private IMenuDao menuDao;
 	private IRoleDao roleDao;
 	private IEmpDao empDao;
+	private Jedis jedis;
 	
+	public void setJedis(Jedis jedis) {
+		this.jedis = jedis;
+	}
+
 	public void setRoleDao(IRoleDao roleDao) {
 		this.roleDao = roleDao;
 	}
@@ -34,9 +42,21 @@ public class MenuBiz extends BaseBiz<Menu> implements IMenuBiz {
 		super.setBaseDao(this.menuDao);
 	}
 
+	public List<Menu> getsMenusByEmpid(Long empuuid) {
+		String menuListJson = jedis.get("menuList_"+ empuuid);
+		List<Menu> menuList = null;
+		if(null==menuListJson){
+			menuList = empDao.getMenusByEmpid(empuuid);
+			jedis.set("menuList_"+empuuid,JSON.toJSONString(menuList));
+		}else{
+			menuList = JSON.parseArray(menuListJson, Menu.class);
+		}
+		return menuList;
+	}
+	
 	@Override
 	public Menu getMenusByEmpid(Long empuuid) {
-		List<Menu> menusByEmpid = empDao.getMenusByEmpid(empuuid);
+		List<Menu> menusByEmpid = getsMenusByEmpid(empuuid);
 		Menu menu = menuDao.get("0");
 		Menu cloneMenus = cloneMenus(menu);
 		Menu _m1= null;
@@ -77,7 +97,11 @@ public class MenuBiz extends BaseBiz<Menu> implements IMenuBiz {
 			Role role = roleDao.get(Long.valueOf(id));
 			emp.getRoles().add(role);
 		}
-		
+		try {
+			jedis.del("menuList_"+uuid);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

@@ -20,6 +20,7 @@
 	<!-- 员工 -->
 	<bean id="empBiz" class="cn.itcast.erp.biz.impl.EmpBiz">
 		<property name="empDao" ref="empDao"></property>
+		<property name="jedis" ref="jedis"></property>
 	</bean>
 	<!-- 商品 -->
 	<bean id="goodsBiz" class="cn.itcast.erp.biz.impl.GoodsBiz">
@@ -38,6 +39,7 @@
 		<property name="menuDao" ref="menuDao"></property>
 		<property name="empDao" ref="empDao"></property>
 		<property name="roleDao" ref="roleDao"></property>
+		<property name="jedis" ref="jedis"></property>
 	</bean>
 	<!-- 订单明细 -->
 	<bean id="orderdetailBiz" class="cn.itcast.erp.biz.impl.OrderdetailBiz">
@@ -52,6 +54,7 @@
 		<property name="ordersDao" ref="ordersDao"></property>
 		<property name="supplierDao" ref="supplierDao"></property>
 		<property name="empDao" ref="empDao"></property>
+		<property name="jedis" ref="jedis"></property>
 	</bean>
 	<!-- 退货订单明细 -->
 	<bean id="returnorderdetailBiz" class="cn.itcast.erp.biz.impl.ReturnorderdetailBiz">
@@ -65,6 +68,7 @@
 	<bean id="roleBiz" class="cn.itcast.erp.biz.impl.RoleBiz">
 		<property name="roleDao" ref="roleDao"></property>
 		<property name="menuDao" ref="menuDao"></property>
+		<property name="jedis" ref="jedis"></property>
 	</bean>
 	<!-- 仓库 -->
 	<bean id="storeBiz" class="cn.itcast.erp.biz.impl.StoreBiz">
@@ -90,12 +94,15 @@
 	<!-- 供应商 -->
 	<bean id="supplierBiz" class="cn.itcast.erp.biz.impl.SupplierBiz">
 		<property name="supplierDao" ref="supplierDao"></property>
+		<property name="jedis" ref="jedis"></property>
 	</bean>
 	<!-- 销售额查询-->
 	<bean id="resportBiz" class="cn.itcast.erp.biz.impl.ResportBiz">
 		<property name="resportDao" ref="resportDao"></property>
 	</bean>
-
-	
+	<!--注册jedis  -->
+	<bean id="jedis" class="redis.clients.jedis.Jedis">
+		<constructor-arg index="0" value="127.0.0.1"></constructor-arg>
+	</bean>
 </beans>
 	

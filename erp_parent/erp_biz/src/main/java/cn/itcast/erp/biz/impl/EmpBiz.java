@@ -10,7 +10,9 @@ import cn.itcast.erp.dao.IEmpDao;
 import cn.itcast.erp.entity.Emp;
 import cn.itcast.erp.entity.Menu;
 import cn.itcast.erp.entity.Role;
+import cn.itcast.erp.entity.Supplier;
 import cn.itcast.erp.entity.Tree;
+import redis.clients.jedis.Jedis;
 /**
  * 员工业务逻辑类
  * @author Administrator
@@ -19,6 +21,11 @@ import cn.itcast.erp.entity.Tree;
 public class EmpBiz extends BaseBiz<Emp> implements IEmpBiz {
 
 	private IEmpDao empDao;
+	private Jedis jedis;
+	
+	public void setJedis(Jedis jedis) {
+		this.jedis = jedis;
+	}
 	
 	public void setEmpDao(IEmpDao empDao) {
 		this.empDao = empDao;
@@ -43,7 +50,7 @@ public class EmpBiz extends BaseBiz<Emp> implements IEmpBiz {
 		empDao.updatePwd(newMd5Hash, uuid);
 	}
 	
-	private String Md5Return(String pwd, String username) {
+	protected String Md5Return(String pwd, String username) {
 		Md5Hash md5Hash = new Md5Hash(pwd, username, 2);
 		return md5Hash.toString();
 	}
@@ -65,5 +72,12 @@ public class EmpBiz extends BaseBiz<Emp> implements IEmpBiz {
 		String md5Return = Md5Return(username, username);
 		t.setPwd(md5Return);
 		super.add(t);
+	}
+	/**
+	 * 更新
+	 */
+	public void update(Emp t){
+		jedis.del("emp_"+t.getUuid());
+		super.update(t);
 	}
 }

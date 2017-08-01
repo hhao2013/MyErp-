@@ -6,6 +6,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.apache.struts2.ServletActionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +22,6 @@ public class LoginAction {
 	private static final Logger log = LoggerFactory.getLogger(LoginAction.class);
 	private String username;
 	private String pwd;
-	private IEmpBiz empBiz;
 	
 	public void setUsername(String username) {
 		this.username = username;
@@ -27,19 +29,14 @@ public class LoginAction {
 	public void setPwd(String pwd) {
 		this.pwd = pwd;
 	}
-	public void setEmpBiz(IEmpBiz empBiz) {
-		this.empBiz = empBiz;
-	}
 	public void checkUser(){
-		Emp loginUser = null;
+		/*Emp loginUser = null;
+		loginUser = empBiz.findByUsernameAndPsw(username, pwd);*/
 		try {
-			loginUser = empBiz.findByUsernameAndPsw(username, pwd);
-			if(null == loginUser){
-				ajaxReturn(false,"用户名或密码错误");
-			}else{
-				ServletActionContext.getContext().getSession().put("user", loginUser);
-				ajaxReturn(true,"登录成功");
-			}
+			UsernamePasswordToken token = new UsernamePasswordToken(username, pwd);
+			Subject subject = SecurityUtils.getSubject();
+			subject.login(token);
+			ajaxReturn(true,"登录成功");
 		} catch (Exception e) {
 			log.error("登录失败",e);
 			ajaxReturn(false,"登录失败");
@@ -71,7 +68,9 @@ public class LoginAction {
 	}
 	
 	public void showName(){
-		Emp user = (Emp) ServletActionContext.getContext().getSession().get("user");
+		//Emp user = (Emp) ServletActionContext.getContext().getSession().get("user");
+		Subject subject = SecurityUtils.getSubject();
+		Emp user = (Emp) subject.getPrincipal();
 		if(null!=user){
 			ajaxReturn(true, user.getName());
 		}else{
@@ -79,6 +78,7 @@ public class LoginAction {
 		}
 	}
 	public void loginOut(){
-		ServletActionContext.getContext().getSession().remove("user");
+		//ServletActionContext.getContext().getSession().remove("user");
+		SecurityUtils.getSubject().logout();
 	}
 }

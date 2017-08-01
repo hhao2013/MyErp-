@@ -74,9 +74,8 @@
 	<bean id="supplierAction" class="cn.itcast.erp.action.SupplierAction" scope="prototype">
 		<property name="supplierBiz" ref="supplierBiz"></property>
 	</bean>
-	<!-- 用户登录 -->
+	<!-- 用户登录  -->
 	<bean id="loginAction" class="cn.itcast.erp.action.LoginAction" scope="prototype">
-		<property name="empBiz" ref="empBiz"></property>
 	</bean>
 	<!-- 销售额 -->
 	<bean id="resportAction" class="cn.itcast.erp.action.ResportAction" scope="prototype">

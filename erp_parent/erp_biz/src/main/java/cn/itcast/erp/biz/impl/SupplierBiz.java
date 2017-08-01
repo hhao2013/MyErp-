@@ -13,6 +13,7 @@ import cn.itcast.erp.biz.ISupplierBiz;
 import cn.itcast.erp.biz.exception.ErpException;
 import cn.itcast.erp.dao.ISupplierDao;
 import cn.itcast.erp.entity.Supplier;
+import redis.clients.jedis.Jedis;
 /**
  * 供应商业务逻辑类
  * @author Administrator
@@ -21,7 +22,12 @@ import cn.itcast.erp.entity.Supplier;
 public class SupplierBiz extends BaseBiz<Supplier> implements ISupplierBiz {
 
 	private ISupplierDao supplierDao;
+	private Jedis jedis;
 	
+	public void setJedis(Jedis jedis) {
+		this.jedis = jedis;
+	}
+
 	public void setSupplierDao(ISupplierDao supplierDao) {
 		this.supplierDao = supplierDao;
 		super.setBaseDao(this.supplierDao);
@@ -114,5 +120,12 @@ public class SupplierBiz extends BaseBiz<Supplier> implements ISupplierBiz {
 			}
 		}
 	}
-	
+
+	/**
+	 * 更新
+	 */
+	public void update(Supplier t){
+		jedis.del("supplier_"+t.getUuid());
+		super.update(t);
+	}
 }

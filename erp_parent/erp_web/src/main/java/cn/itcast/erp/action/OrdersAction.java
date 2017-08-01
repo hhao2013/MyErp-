@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.struts2.ServletActionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,9 +87,12 @@ public class OrdersAction extends BaseAction<Orders> {
 		}catch(ErpException e){
 			log.debug("审核失败");
 			ajaxReturn(false, e.getMessage());
-		} catch (Exception e) {
+		}catch(UnauthorizedException e){ 
+			ajaxReturn(false, "没有权限");
+		}catch (Exception e) {
 			log.debug("审核失败");
-			ajaxReturn(true, "审核失败");
+			ajaxReturn(false, "审核失败");
+			e.printStackTrace();
 		}
 		
 	}
@@ -105,7 +109,9 @@ public class OrdersAction extends BaseAction<Orders> {
 		}catch(ErpException e){
 			log.debug("确认失败");
 			ajaxReturn(false, e.getMessage());
-		} catch (Exception e) {
+		}catch(UnauthorizedException e){ 
+			ajaxReturn(false, "没有权限");
+		}catch(Exception e) {
 			log.debug("确认失败");
 			ajaxReturn(true, "确认失败");
 		}

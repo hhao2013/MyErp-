@@ -16,6 +16,9 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.Subject;
 
 import cn.itcast.erp.biz.IOrdersBiz;
 import cn.itcast.erp.biz.exception.ErpException;
@@ -24,6 +27,7 @@ import cn.itcast.erp.dao.IOrdersDao;
 import cn.itcast.erp.dao.ISupplierDao;
 import cn.itcast.erp.entity.Orderdetail;
 import cn.itcast.erp.entity.Orders;
+import redis.clients.jedis.Jedis;
 /**
  * 订单业务逻辑类
  * @author Administrator
@@ -34,7 +38,12 @@ public class OrdersBiz extends BaseBiz<Orders> implements IOrdersBiz {
 	private IOrdersDao ordersDao;
 	private IEmpDao empDao;
 	private ISupplierDao supplierDao;
+	private Jedis jedis;
 	
+	public void setJedis(Jedis jedis) {
+		this.jedis = jedis;
+	}
+
 	public void setEmpDao(IEmpDao empDao) {
 		this.empDao = empDao;
 	}
@@ -50,6 +59,18 @@ public class OrdersBiz extends BaseBiz<Orders> implements IOrdersBiz {
 
 	@Override
 	public void add(Orders order) {
+		Subject subject = SecurityUtils.getSubject();
+		if(Orders.TYPE_IN.equals(order.getType())){
+			if(!subject.isPermitted("采购订单申请")){
+				throw new ErpException("当前用户没有采购订单申请权限");
+			}
+		}else if(Orders.TYPE_OUT.equals(order.getType())){
+			if(!subject.isPermitted("销售订单录入")){
+				throw new ErpException("当前用户没有销售订单录入权限");
+			}
+		}else{
+			throw new ErpException("非法参数");
+		}
 		order.setState(Orders.STATE_CREATE);
 		/*order.setType(Orders.TYPE_IN);*/
 		order.setCreatetime(new Date());
@@ -68,40 +89,41 @@ public class OrdersBiz extends BaseBiz<Orders> implements IOrdersBiz {
 		Map<Long,String> empMap = new HashMap<Long,String>();
 		Map<Long,String> supplierNameMap = new HashMap<Long, String>();
 		for (Orders orders : list) {
-			orders.setCreaterName(getName(orders.getCreater(), empMap,empDao));
-			orders.setCheckerName(getName(orders.getChecker(), empMap,empDao));
-			orders.setStarterName(getName(orders.getStarter(), empMap,empDao));
-			orders.setEnderName(getName(orders.getEnder(), empMap,empDao));
-			orders.setSupplierName(getName(orders.getSupplieruuid(), supplierNameMap,supplierDao));
+			orders.setCreaterName(getEmpName(orders.getCreater()));
+			orders.setCheckerName(getEmpName(orders.getChecker()));
+			orders.setStarterName(getEmpName(orders.getStarter()));
+			orders.setEnderName(getEmpName(orders.getEnder()));
+			orders.setSupplierName(getSupplierName(orders.getSupplieruuid()));
 		}
 		return list;
 	}
 	
-	/*private String getEmpName(Long uuid,Map<Long,String> empMap){
+	private String getEmpName(Long uuid){
 		if(null == uuid){
 			return null;
 		}
-		String empName = empMap.get(uuid);
+		String empName = jedis.get("emp_"+uuid);
 		if(null == empName){
 			empName = empDao.get(uuid).getName();
-			empMap.put(uuid,empName);
+			jedis.set("emp_"+uuid,empName);
 		}
 		return empName;
-	}*/
+	}
 	
-/*	private String getSupplierName(Long uuid,Map<Long,String> supplierNameMap){
+	private String getSupplierName(Long uuid){
 		if(null==uuid){
 			return null;
 		}
-		String supplierName = supplierNameMap.get(uuid);
+		String supplierName = jedis.get("supplier_"+uuid);
 		if(null ==supplierName){
 			supplierName = supplierDao.get(uuid).getName();
-			supplierNameMap.put(uuid,supplierName);
+			jedis.set("supplier_"+uuid,supplierName);
 		}
 		return supplierName;
-	}*/
+	}
 
 	@Override
+	@RequiresPermissions("采购订单审核")
 	public void doCheck(Long uuid, Long empuuid) {
 		Orders orders = ordersDao.get(uuid);
 		if(!Orders.STATE_CREATE.equals(orders.getState())){
@@ -112,6 +134,7 @@ public class OrdersBiz extends BaseBiz<Orders> implements IOrdersBiz {
 		orders.setState(orders.STATE_CHECK);
 	}
 	@Override
+	@RequiresPermissions("采购订单确认")
 	public void doStart(Long uuid, Long empuuid) {
 		Orders orders = ordersDao.get(uuid);
 		if(!Orders.STATE_CHECK.equals(orders.getState())){

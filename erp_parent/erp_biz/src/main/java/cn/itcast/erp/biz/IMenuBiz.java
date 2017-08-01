@@ -12,5 +12,6 @@ public interface IMenuBiz extends IBaseBiz<Menu>{
 	List<Tree> readRoleMenus(Long id);
 	Menu getMenusByEmpid(Long empuuid);
 	void updateRoleMenus(Long uuid,String checkIds);
+	List<Menu> getsMenusByEmpid(Long empuuid);
 }
 

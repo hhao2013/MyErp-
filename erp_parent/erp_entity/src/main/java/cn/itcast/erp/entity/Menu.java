@@ -44,5 +44,28 @@ public class Menu {
 	public void setUrl(String url) {
 		this.url = url;
 	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((menuid == null) ? 0 : menuid.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Menu other = (Menu) obj;
+		if (menuid == null) {
+			if (other.menuid != null)
+				return false;
+		} else if (!menuid.equals(other.menuid))
+			return false;
+		return true;
+	}
 
 }

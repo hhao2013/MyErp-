@@ -2,6 +2,8 @@ package cn.itcast.erp.biz.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+
 import com.redsun.bos.ws.impl.IWaybillWs;
 
 import cn.itcast.erp.biz.IOrderdetailBiz;
@@ -49,6 +51,7 @@ public class OrderdetailBiz extends BaseBiz<Orderdetail> implements IOrderdetail
 	}
 
 	@Override
+	@RequiresPermissions("采购订单入库")
 	public void doInStore(Long uuid, Long storeuuid, Long empuuid) {
 		Orderdetail orderDetail = orderdetailDao.get(uuid);
 		if(!Orderdetail.STATE_NOT_IN.equals(orderDetail.getState())){
@@ -89,7 +92,7 @@ public class OrderdetailBiz extends BaseBiz<Orderdetail> implements IOrderdetail
 			order.setEndtime(orderDetail.getEndtime());
 		}
 	}
-	
+	@RequiresPermissions("销售订单出库")
 	public void doOutStore(Long uuid, Long storeuuid, Long empuuid) {
 		Orderdetail orderDetail = orderdetailDao.get(uuid);
 		if(!Orderdetail.STATE_NOT_IN.equals(orderDetail.getState())){
